@@ -32,7 +32,7 @@ public class ContactList {
                             ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
                     InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(ctx.getContentResolver(),
                             ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, new Long(id)));
-                    
+
                     Bitmap photo = null;
                     if (inputStream != null) {
                         photo = BitmapFactory.decodeStream(inputStream);
