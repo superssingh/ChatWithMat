@@ -39,14 +39,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
     public static final String ANONYMOUS = "anonymous";
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 1000;
-
+    private static final String TAG = "MainActivity";
+    List<FriendlyMessage> friendlyMessages;
     private RecyclerView mMessageRecyclerView;
     private MessageRecyclerAdapter messageRecyclerAdapter;
     private LinearLayoutManager recyclerViewLayoutManager;
-
     private FloatingActionButton floatingActionButton;
     private ProgressBar mProgressBar;
     private ImageButton mPhotoPickerButton;
@@ -55,35 +54,30 @@ public class MainActivity extends AppCompatActivity {
     private String mUserNumber;
     private String mClientNumber = "+123456789";
     private String mPhotoUrl;
-
-
-
     // Firebase instance variables
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mMessageDatabaseReference;
     private ChildEventListener mChildEventListener;
-
     //    private FirebaseUser mFirebaseUser;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private int RC_SIGN_IN = 123;
-    List<FriendlyMessage> friendlyMessages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mUserNumber = ANONYMOUS;
         // Initialize references to views
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-        mMessageRecyclerView = (RecyclerView) findViewById(R.id.recyclerMessageView);
-        mPhotoPickerButton = (ImageButton) findViewById(R.id.photoPickerButton);
-        mMessageEditText = (EditText) findViewById(R.id.messageEditText);
-        mSendButton = (Button) findViewById(R.id.sendButton);
-        floatingActionButton=(FloatingActionButton)findViewById(R.id.fab);
+        mProgressBar = findViewById(R.id.progressBar);
+        mMessageRecyclerView = findViewById(R.id.recyclerMessageView);
+        mPhotoPickerButton = findViewById(R.id.photoPickerButton);
+        mMessageEditText = findViewById(R.id.messageEditText);
+        mSendButton = findViewById(R.id.sendButton);
+        floatingActionButton = findViewById(R.id.fab);
 
         //Initialize Firebase
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -125,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         mPhotoPickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                 TODO: Fire an intent to show an image picker
+
             }
         });
 

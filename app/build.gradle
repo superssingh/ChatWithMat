@@ -9,7 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        resConfigs "auto"
+//        resConfigs "auto"
     }
 
     buildTypes {
@@ -22,19 +22,6 @@ android {
     dataBinding {
         enabled = true
     }
-
-//    packagingOptions {
-//        exclude 'META-INF/DEPENDENCIES'
-////        exclude 'META-INF/LICENSE'
-////        exclude 'META-INF/LICENSE.txt'
-////        exclude 'META-INF/license.txt'
-////        exclude 'META-INF/NOTICE'
-////        exclude 'META-INF/NOTICE.txt'
-////        exclude 'META-INF/notice.txt'
-////        exclude 'META-INF/ASL2.0'
-//    }
-//
-//    configurations.all { resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9' }
 
 }
 
@@ -52,9 +39,11 @@ dependencies {
 
 // Displaying images
     compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.3'
 
     //Firebase
-    //    compile 'com.google.firebase:firebase-core:11.8.0'
+    compile 'com.google.firebase:firebase-core:11.8.0'
     compile 'com.google.firebase:firebase-auth:11.8.0'
     compile 'com.google.android.gms:play-services-auth:11.8.0'
     compile 'com.google.firebase:firebase-database:11.8.0'

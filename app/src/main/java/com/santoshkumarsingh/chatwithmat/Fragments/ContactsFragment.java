@@ -33,10 +33,6 @@ import com.santoshkumarsingh.chatwithmat.R;
 public class ContactsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
         AdapterView.OnItemClickListener {
 
-    private OnFragmentInteractionListener mListener;
-    private View view;
-
-
     //----------
     /*
      * Defines an array that contains column names to move from
@@ -57,38 +53,16 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
     private final static int[] TO_IDS = {
             android.R.id.text1
     };
-    // Define global mutable variables
-    // Define a ListView object
-    ListView mContactsList;
-    // Define variables for the contact the user selects
-    // The contact's _ID value
-    long mContactId;
-    // The contact's LOOKUP_KEY
-    String mContactKey;
-    // A content URI for the selected contact
-    Uri mContactUri;
-    // An adapter that binds the result Cursor to the ListView
-    private SimpleCursorAdapter mCursorAdapter;
-
-
     // The column index for the _ID column
     private static final int CONTACT_ID_INDEX = 0;
     // The column index for the LOOKUP_KEY column
     private static final int LOOKUP_KEY_INDEX = 1;
-
     // Defines the text expression
     @SuppressLint("InlinedApi")
     private static final String SELECTION =
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
                     ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " LIKE ?" :
                     ContactsContract.Contacts.DISPLAY_NAME + " LIKE ?";
-    // Defines a variable for the search string
-    private String mSearchString;
-    // Defines the array to hold values that replace the ?
-    private String[] mSelectionArgs = { mSearchString };
-
-
-
     @SuppressLint("InlinedApi")
     private static final String[] PROJECTION =
             {
@@ -106,10 +80,27 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
                     // The contact's LOOKUP_KEY, to construct a content URI
                     ContactsContract.Data.LOOKUP_KEY // A permanent link to the contact
             };
+    // Define global mutable variables
+    // Define a ListView object
+    ListView mContactsList;
+    // Define variables for the contact the user selects
+    // The contact's _ID value
+    long mContactId;
+    // The contact's LOOKUP_KEY
+    String mContactKey;
+    // A content URI for the selected contact
+    Uri mContactUri;
+    private OnFragmentInteractionListener mListener;
+    private View view;
+    // An adapter that binds the result Cursor to the ListView
+    private SimpleCursorAdapter mCursorAdapter;
+    // Defines a variable for the search string
+    private String mSearchString;
+    // Defines the array to hold values that replace the ?
+    private String[] mSelectionArgs = {mSearchString};
 
 
     //--------------
-
     private RecyclerView recyclerView;
 
     public ContactsFragment() {
@@ -137,7 +128,7 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void InitUI() {
-        recyclerView=(RecyclerView)view.findViewById(R.id.contact_recyclerView);
+        recyclerView = view.findViewById(R.id.contact_recyclerView);
 
     }
 
@@ -212,25 +203,21 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
 
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
-
     @SuppressLint("ResourceType")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Gets the ListView from the View list of the parent activity
-        mContactsList =
-                (ListView) getActivity().findViewById(R.layout.contacts_list_view);
-        // Gets a CursorAdapter
-        mCursorAdapter = new SimpleCursorAdapter(
-                getActivity(),
-                R.layout.contacts_list_item,
-                null,
-                FROM_COLUMNS, TO_IDS,
-                0);
+//        // Gets the ListView from the View list of the parent activity
+//        mContactsList =
+//                (ListView) getActivity().findViewById(R.layout.contacts_list_view);
+//        // Gets a CursorAdapter
+//        mCursorAdapter = new SimpleCursorAdapter(
+//                getActivity(),
+//                R.layout.contacts_list_item,
+//                null,
+//                FROM_COLUMNS, TO_IDS,
+//                0);
         // Sets the adapter for the ListView
         mContactsList.setAdapter(mCursorAdapter);
 
@@ -241,6 +228,10 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
         getLoaderManager().initLoader(0, null, this);
 
 
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(Uri uri);
     }
 
 }

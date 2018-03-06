@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import com.santoshkumarsingh.chatwithmat.Models.ContactModel;
 
@@ -35,15 +36,23 @@ public class ContactList {
 
                     Bitmap photo = null;
                     if (inputStream != null) {
+                        Log.i("BITMAP", "YES");
                         photo = BitmapFactory.decodeStream(inputStream);
+                    } else {
+                        Log.i("BITMAP", "No");
                     }
+
                     while (cursorInfo.moveToNext()) {
-                        ContactModel info = new ContactModel();
-                        info.id = id;
-                        info.name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                        info.mobileNumber = cursorInfo.getString(cursorInfo.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        info.photo = photo;
-                        list.add(info);
+                        if (!list.contains(id)) {
+                            ContactModel info = new ContactModel();
+                            info.id = id;
+                            info.name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                            info.mobileNumber = cursorInfo.getString(cursorInfo.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            info.photoURI = cursorInfo.getString(cursorInfo.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
+                            info.photo = photo;
+
+                            list.add(info);
+                        }
                     }
 
                     cursorInfo.close();
@@ -51,6 +60,8 @@ public class ContactList {
             }
             cursor.close();
         }
+
         return list;
     }
+
 }

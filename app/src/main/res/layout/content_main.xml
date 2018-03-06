@@ -15,15 +15,15 @@
         android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerMessageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:id="@+id/recyclerMessageView"
         android:layout_above="@id/linearLayout"
-        app:stackFromEnd="true"
-        android:stackFromBottom="true"
+        android:layout_weight="1"
         android:divider="@android:color/transparent"
+        android:stackFromBottom="true"
         android:transcriptMode="alwaysScroll"
+        app:stackFromEnd="true"
         tools:listitem="@layout/item_message"
         >
 
@@ -43,10 +43,10 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:layout_gravity="bottom|end"
         android:background="@color/cardview_light_background"
         android:orientation="horizontal"
-        android:layout_gravity="bottom|end">
+        android:padding="8dp">
 
         <ImageButton
             android:id="@+id/photoPickerButton"
@@ -72,13 +72,14 @@
     </LinearLayout>
 
     </LinearLayout>
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:layout_gravity="center" />
 
 </FrameLayout>

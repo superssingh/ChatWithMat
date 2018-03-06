@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.santoshkumarsingh.chatwithmat.Adapters.ContactRecyclerAdapter;
@@ -16,9 +19,21 @@ import com.santoshkumarsingh.chatwithmat.Utilities.ContactList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class ContactActivity extends AppCompatActivity {
 
+    // Request code for READ_CONTACTS. It can be any number > 0.
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+
+    private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private ContactRecyclerAdapter contactRecyclerAdapter;
@@ -26,23 +41,87 @@ public class ContactActivity extends AppCompatActivity {
     private List<ContactModel> contacts;
     private ContactList contactList;
 
-    // Request code for READ_CONTACTS. It can be any number > 0.
-    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+    private CompositeDisposable disposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
+
+        recyclerView = findViewById(R.id.contact_recyclerView);
+        progressBar = findViewById(R.id.progress_bar);
         contacts = new ArrayList<>();
-        initRecyclerView();
-        showContacts();
+        disposable = new CompositeDisposable();
+
+        Load_AudioFiles();
+
     }
 
     private void initRecyclerView() {
-        recyclerView=(RecyclerView)findViewById(R.id.contact_recyclerView);
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+    private void Load_AudioFiles() {
+        disposable.add(getContacts()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        initRecyclerView();
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .doOnNext(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        showContacts();
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        setDataIntoAdapter(contacts);
+                    }
+                })
+                .subscribeWith(new DisposableObserver<Integer>() {
+                    @Override
+                    public void onNext(@io.reactivex.annotations.NonNull Integer integer) {
+                        progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.annotations.NonNull Throwable e) {
+                        Log.e("Error::ContactActivity", e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("OnComplete:: ", "Completed");
+
+                    }
+                }));
+    }
+
+    private void setDataIntoAdapter(List<ContactModel> contacts) {
+        contactRecyclerAdapter.addList(contacts);
+    }
+
+    private Observable<Integer> getContacts() {
+        return Observable.fromCallable(new Callable<Integer>() {
+            @Override
+            public Integer call() throws Exception {
+                return 0;
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disposable.dispose();
     }
 
     private void showContacts() {
