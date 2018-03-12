@@ -42,7 +42,7 @@ public class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecycler
         ContactModel contactModel = contactModelList.get(position);
 
         holder.contactName.setText(contactModel.getName());
-        holder.contactNumber.setText(contactModel.getMobileNumber());
+        holder.contactNumber.setText(contactModel.getNumber());
         Glide.with(holder.itemView.getContext()).load(contactModel.getPhotoURI())
                 .asBitmap().centerCrop()
                 .placeholder(R.drawable.ic_person_24dp).into(new BitmapImageViewTarget(holder.contactImage) {

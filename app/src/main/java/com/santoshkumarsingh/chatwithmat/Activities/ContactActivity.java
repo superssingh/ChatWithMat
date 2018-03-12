@@ -84,12 +84,12 @@ public class ContactActivity extends AppCompatActivity {
                     @Override
                     public void accept(Integer integer) throws Exception {
                         setDataIntoAdapter(contacts);
+                        progressBar.setVisibility(View.GONE);
                     }
                 })
                 .subscribeWith(new DisposableObserver<Integer>() {
                     @Override
                     public void onNext(@io.reactivex.annotations.NonNull Integer integer) {
-                        progressBar.setVisibility(View.GONE);
                     }
 
                     @Override

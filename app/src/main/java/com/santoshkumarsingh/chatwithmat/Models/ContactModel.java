@@ -1,7 +1,5 @@
 package com.santoshkumarsingh.chatwithmat.Models;
 
-import android.graphics.Bitmap;
-
 /**
  * Created by santoshsingh on 02/03/18.
  */
@@ -9,18 +7,16 @@ import android.graphics.Bitmap;
 public class ContactModel {
     public String id;
     public String name;
-    public String mobileNumber;
-    public Bitmap photo;
+    public String number;
     public String photoURI;
 
     public ContactModel() {
     }
 
-    public ContactModel(String id, String name, String mobileNumber, Bitmap photo, String photoURI) {
+    public ContactModel(String id, String name, String number, String photoURI) {
         this.id = id;
         this.name = name;
-        this.mobileNumber = mobileNumber;
-        this.photo = photo;
+        this.number = number;
         this.photoURI = photoURI;
     }
 
@@ -40,20 +36,12 @@ public class ContactModel {
         this.name = name;
     }
 
-    public String getMobileNumber() {
-        return mobileNumber;
+    public String getNumber() {
+        return number;
     }
 
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
-    }
-
-    public Bitmap getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(Bitmap photo) {
-        this.photo = photo;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public String getPhotoURI() {
